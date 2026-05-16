@@ -1,6 +1,6 @@
 from fastapi import FastAPI,Path,HTTPException,Query
 from services.products import get_all_products
-
+from schema.products import Product
 
 app = FastAPI()
 
@@ -85,7 +85,11 @@ def list_products(
 
 
 @app.get("/products/{product_id}")
-def get_products_by_ID(product_id: str= Path(..., min_length= 36,max_length=36,description="UUID of the Product",examples="0005a4da-ce3f-4dd7-bde0-f4ddc70fea6a")):
+def get_products_by_ID(
+    product_id: str= Path(..., 
+    min_length= 36,
+    max_length=36,
+    description="UUID of the Product",examples="0005a4da-ce3f-4dd7-bde0-f4ddc70fea6a")):
     products = get_all_products()
     for product in products:
         if product["id"] == product_id:
@@ -93,3 +97,15 @@ def get_products_by_ID(product_id: str= Path(..., min_length= 36,max_length=36,d
     raise HTTPException(status_code=404, detail="Product not found")    
 
     return products[id]
+
+
+
+# ==========POST METHOD ==============
+@app.post("/products",status_code=201)
+def create_product(product:Product):
+    # print()
+    # return product.json
+    return product.model_dump(mode="json")
+
+
+
