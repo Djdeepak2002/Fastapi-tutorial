@@ -1,6 +1,11 @@
 from fastapi import FastAPI,Path,HTTPException,Query
-from services.products import get_all_products
-from schema.products import Product
+from services.products import get_all_products,add_product,remove_product,change_product
+from schema.products import Product,ProductUpdate
+from uuid import uuid4, UUID
+from datetime import datetime
+
+
+
 
 app = FastAPI()
 
@@ -103,9 +108,48 @@ def get_products_by_ID(
 # ==========POST METHOD ==============
 @app.post("/products",status_code=201)
 def create_product(product:Product):
-    # print()
+ 
     # return product.json
+
+    # saving product in dictionary of json
+    product_dict = product.model_dump(mode="json")
+    product_dict["id"] = str(uuid4())
+    product_dict["created_at"] = datetime.utcnow().isoformat() + "z"
+
+    try:
+        add_product(product_dict)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    return product.model_dump(mode="json")
+
+
+# ========== DELETE METHOD =================
+@app.delete("/products/{product_id}")
+def delete_product(
+    product_id: UUID = Path(...,description="Product ID")):
+    
+    try:
+        response = remove_product(str(product_id))
+        return response
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
     return product.model_dump(mode="json")
 
 
 
+# ========== UPDATE [PUT] METHOD =================
+# Here we are using Custom payload model (ProductUpdate)
+
+@app.put("/products/{product_id}")
+def update_product(
+    product_id: UUID = Path(...,description="Product UUID"),
+    payload :ProductUpdate = ...):
+    
+    try:
+        update_product = change_product(
+        str(product_id),
+        payload.model_dump(mode="json",exclude_unset=True))
+        return update_product
+    except Exception as e:
+        raise HTTPException(status_code=404,detail=str(e))
