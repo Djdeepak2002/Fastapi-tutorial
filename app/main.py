@@ -1,17 +1,53 @@
-from fastapi import FastAPI,Path,HTTPException,Query
-from services.products import get_all_products,add_product,remove_product,change_product
+from dotenv import load_dotenv
+import os
+from fastapi import FastAPI, Path, HTTPException, Query, Depends, Request
+from fastapi.responses import JSONResponse
+from services.products import (
+    get_all_products,
+    add_product,
+    remove_product,
+    change_product,
+    load_products
+    )
 from schema.products import Product,ProductUpdate
 from uuid import uuid4, UUID
 from datetime import datetime
+from typing import List
 
 
-
-
+load_dotenv()
 app = FastAPI()
 
-@app.get("/")
-def root():
-    return {"Message":"Welcome to FastAPI course"}
+
+# Middlewares
+@app.middleware("http")
+async def lifecycle(request:Request,call_next):
+    print("Before Request")
+    response = await call_next(request)
+    print("After Request")
+    return response
+
+
+# dependancies
+def common_logic():
+    print("Hello World")
+    return "Hello World"
+
+
+
+@app.get("/",response_model=dict)
+def root(dep=Depends(common_logic)):
+    DB_PATH = os.getenv("BASE_URL")
+    # return {"Message":"Welcome to FastAPI course", "dependency":dep, "data_path":DB_PATH}
+    return JSONResponse(
+        status_code=200,
+        content= {"Message":"Welcome to FastAPI course", 
+        "dependency":dep, 
+        "data_path":DB_PATH
+        }
+    )
+
+# response_model = Used to decide what response will return
 
 
 # @app.get("/products/{id}")
@@ -35,8 +71,9 @@ def root():
 
 
 
-@app.get("/products")
+@app.get("/products", response_model=dict)
 def list_products(
+    dep = Depends(load_products), # Here declared dependancy for loading all products
     name: str | None = Query(
         default=None,
         min_length=1,
@@ -45,7 +82,7 @@ def list_products(
         examples="Iphone"
     ),
     sort_by_price:bool = Query(
-        default=False,\
+        default=False,
         description="Sort  Product by price"
     ),
     order:str = Query(
@@ -64,7 +101,11 @@ def list_products(
         description="Pagination offeset"
     )
 ):    
-    products = get_all_products()
+    # products = get_all_products()
+
+    # Here we are importing dependency instead of calling it again above
+
+    products = dep
     
     if name:
         needle = name.strip().lower()
@@ -89,7 +130,7 @@ def list_products(
     }
 
 
-@app.get("/products/{product_id}")
+@app.get("/products/{product_id}", response_model=dict)
 def get_products_by_ID(
     product_id: str= Path(..., 
     min_length= 36,

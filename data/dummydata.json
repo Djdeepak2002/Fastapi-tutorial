@@ -1,37 +1,73 @@
-{
-  "id": "0005a4ea-ce3f-4dd7-bee0-f4ccc70fea6a",
-  "sku": "XIAO-359GB-001",
-  "name": "Xiaomi Model 5g Pro",
-  "description": "Official Xiaomi product with manufacturer warranty",
-  "category": "laptops",
-  "brand": "Xiaomi",
-  "price": 25000.0,
-  "currency": "INR",
-  "discount_percent": 10,
-  "stock": 45,
-  "is_active": true,
-  "rating": 4.8,
-  "tags": [
-    "charger",
-    "amoled",
-    "tablet"
-  ],
-  "image_urls": [
-    "https://cdn.example.com/xiaomi/front.png",
-    "https://cdn.example.com/xiaomi/back.png"
-  ],
-  "dimensions_cm": {
-    "length": 27.4,
-    "width": 20.8,
-    "height": 1.9
+[
+  {
+    "id": "0005a4ea-ce3f-4dd7-bee0-f4ccc70fea6a",
+    "sku": "XIAO-359GB-001",
+    "name": "Xiaomi Model 5g Pro",
+    "description": "Official Xiaomi product with manufacturer warranty",
+    "category": "laptops",
+    "brand": "Xiaomi",
+    "price": 25000.0,
+    "currency": "INR",
+    "discount_percent": 10,
+    "stock": 45,
+    "is_active": true,
+    "rating": 4.8,
+    "tags": [
+      "charger",
+      "amoled",
+      "tablet"
+    ],
+    "image_urls": [
+      "https://cdn.example.com/xiaomi/front.png",
+      "https://cdn.example.com/xiaomi/back.png"
+    ],
+    "dimensions_cm": {
+      "length": 27.4,
+      "width": 20.8,
+      "height": 1.9
+    },
+    "seller": {
+      "seller_id": "73cbdd06-5668-4e52-b172-e765f8468398",
+      "name": "Mi Store",
+      "email": "support@mistore.in",
+      "website": "https://www.mistore.in/"
+    },
+    "created_at": "2024-09-06T00:00:00Z",
+    "final_price": 22500.0,
+    "volume_cm3": 1082.85
   },
-  "seller": {
-    "seller_id": "73cbdd06-5668-4e52-b172-e765f8468398",
-    "name": "Mi Store",
-    "email": "support@mistore.in",
-    "website": "https://www.mistore.in/"
-  },
-  "created_at": "2024-09-06T00:00:00Z",
-  "final_price": 22500.0,
-  "volume_cm3": 1082.85
-}
+  {
+    "id": "dc4b812c-b234-4fa5-8916-fd205b29a30b",
+    "sku": "XIAO-359GB-025",
+    "name": "Iphone 17 Pro",
+    "description": "string",
+    "category": "mobiles",
+    "brand": "Iphone",
+    "price": 87000.0,
+    "currency": "INR",
+    "discount_percent": 20,
+    "stock": 10,
+    "is_active": true,
+    "rating": 5.0,
+    "tags": [
+      "string"
+    ],
+    "image_urls": [
+      "https://example.com/"
+    ],
+    "dimensions_cm": {
+      "length": 12.0,
+      "width": 10.0,
+      "height": 9.0
+    },
+    "seller": {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "Apple store",
+      "email": "user@applestoreindia.in",
+      "website": "https://example.com/"
+    },
+    "created_at": "2026-05-25T10:10:57.846282z",
+    "final_price": 69600.0,
+    "volume_cm3": 1080.0
+  }
+]

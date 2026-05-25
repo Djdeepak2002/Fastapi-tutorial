@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import List, Dict
 
-# DATA_FILE = Path(__file__).parent.parent / "data" / "products.json"
+# DATA_FILE = Path(__file__).parent.parent.parent / "data" / "products.json"
 DATA_FILE = Path(__file__).parent.parent.parent / "data" / "dummydata.json"
 
 
@@ -12,6 +12,7 @@ def load_products() -> List[Dict]:
     with open(DATA_FILE,"r",encoding="utf-8") as file:
         return json.load(file)
 
+# GET all products
 def get_all_products() -> List[Dict]:
     return load_products()
 
@@ -20,6 +21,7 @@ def save_product(products:List[Dict]) -> None:
     with open(DATA_FILE,"w",encoding="utf-8") as f:
         json.dump(products,f,indent=2,ensure_ascii=False)
 
+# Add new Product
 def add_product(product:Dict) -> Dict:
     products = get_all_products()
 
@@ -43,10 +45,11 @@ def remove_product(id:str) -> str:
 
             return {"message" :"Product deleted Successfully","data":deleted}
         
-        # If product id is not there in products list raise error
-        raise ValueError("Product not found")
+    # If product id is not there in products list raise error
+    raise ValueError("Product not found")
 
 
+# Update product
 def change_product(product_id:str,update_data:dict):
     products = get_all_products()
 
